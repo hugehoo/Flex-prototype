@@ -19,7 +19,7 @@ public class Main {
     }
 
 
-    public class useVacation implements Vacation {
+    public class UseVacation implements Vacation {
         Employee employee = new Employee();
 
         @Override
@@ -63,6 +63,7 @@ public class Main {
         INTERN
     }
 
+    // 어느 객체가 가지고 있는것이 좋을지 생각해볼 것
     public void changeDepartment(DepartmentName department) {
         Employee employee = new Employee();
         employee.department = department;
