@@ -1,8 +1,14 @@
-package com.company;
+package com.company.v0;
 
 public class Main {
+    public String name;
+
+    public Main(String name) {
+        this.name = name;
+    }
 
     public class Employee {
+
         public int personalId;
         public String name;
         public DepartmentName department; // 부서
@@ -13,13 +19,17 @@ public class Main {
     }
 
     public interface Vacation {
+
         public void dayOff();
+
         public void morningOff();
+
         public void afternoonOff();
     }
 
 
     public class UseVacation implements Vacation {
+
         Employee employee = new Employee();
 
         @Override
@@ -75,6 +85,16 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        // write your code here
+
+//        String a = new String("a");
+//        String b = new String("a");
+//        System.out.println(a == b);
+//        System.out.println(a.equals(b));
+
+        Main str1 = new Main("객체");
+        Main str2 = new Main("객체");
+        System.out.println(str1);
+        System.out.println(str2);
+        System.out.println(str1.equals(str2)); // >>> false 인 이유는 String 클래스의 equals 와 Object 클래스의 equals 는 다르기 때문.
     }
 }
