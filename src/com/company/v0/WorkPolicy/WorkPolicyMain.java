@@ -17,4 +17,17 @@ public class WorkPolicyMain {
         policy.setOptions();
         policy.save();
     }
+
+    public void updateWorkPolicy() {
+        User user = new User();
+        User manager = user.authorizeManager(id);
+
+        WorkPolicy policy = manager.updateWorkPolicy(policyId);
+
+        policy.builder()
+            .name("외근")
+            .explain("외부에서 근무")
+            .build();
+        policy.save();
+    }
 }
