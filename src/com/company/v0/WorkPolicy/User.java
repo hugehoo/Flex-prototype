@@ -14,9 +14,7 @@ public class User {
         }
     }
 
-
-
-
-
-
+    public Work getSchedule() {
+        return personalSchedule;
+    }
 }

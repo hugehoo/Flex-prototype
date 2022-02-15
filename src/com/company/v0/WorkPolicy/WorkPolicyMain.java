@@ -30,4 +30,17 @@ public class WorkPolicyMain {
             .build();
         policy.save();
     }
+
+    public void chooseWorkPolicy() {
+        User user = new User();
+        Work myWorkSchedule = user.getSchedule();
+
+        myWorkSchedule.builder()
+            .date(today)
+            .policy("외근")
+            .time("11:00 - 17:00")
+            .build();
+
+        myWorkSchedule.save();
+    }
 }
