@@ -56,6 +56,12 @@ public class WorkPolicyMain {
         sendEmail();
     }
 
+    // 이메일 초대 승낙 이후 로직
+    public void submitPersonalInfo(Object personalInfo, Long id) {
+        User user = UserDb.findWaitingUserById(id);
+        user.inputPersonalInfo(personalInfo); // 입력된 개인 필수정보, 부가정보 저장.
+    }
+
     private void sendEmail() {
         System.out.println("send Email to New User");
     }

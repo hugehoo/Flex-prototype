@@ -5,6 +5,7 @@ public class User {
     private Long id;
     private String name;
     private boolean managerAuthority;
+    UserDb db = new UserDb();
 
     public static Boolean isManagerAuthorized(Long id) {
         Boolean isManager = UserDb.findManagerById(id);
@@ -21,6 +22,11 @@ public class User {
     }
 
     public void saveAsWaitingUser() {
+        db.saveWaitingUser();
         System.out.println("초대 승낙 대기중인 멤버를 임시 저장");
+    }
+
+    public void inputPersonalInfo(Object personalInfo) {
+        db.savePersonalInfo(personalInfo);
     }
 }
