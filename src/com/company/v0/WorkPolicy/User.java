@@ -6,15 +6,12 @@ public class User {
     private String name;
     private boolean managerAuthority;
 
-    public User isAuthorize(Long id) {
-        if (isManagerAuthorized(id)) {
-            return manager;
-        } else {
-            return null;
-        }
+    public static Boolean isManagerAuthorized(Long id) {
+        Boolean isManager = UserDb.findManagerById(id);
+        return isManager;
     }
 
-    public Work getSchedule() {
+    public Work getSchedule(String date) {
         return personalSchedule;
     }
 }
