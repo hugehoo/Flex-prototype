@@ -31,16 +31,15 @@ public class WorkPolicyMain {
         policy.save();
     }
 
-    public void chooseWorkPolicy() {
+    public void setDailyWorkPolicy() {
         User user = new User();
-        Work myWorkSchedule = user.getSchedule();
+        Work dailyWorkSchedule = user.getSchedule(date); // date : 근무정책을 적용할 날짜
 
-        myWorkSchedule.builder()
-            .date(today)
+        dailyWorkSchedule.builder()
             .policy("외근")
             .time("11:00 - 17:00")
             .build();
 
-        myWorkSchedule.save();
+        dailyWorkSchedule.save();
     }
 }

@@ -4,7 +4,6 @@ import java.util.Date;
 
 public class Work {
 
-    private String date;
     private WorkPolicy policy;
     private String time;
 

@@ -6,8 +6,8 @@ public class User {
     private String name;
     private boolean managerAuthority;
 
-    public User authorizeManager(Long id) {
-        if (authorize(id)) {
+    public User isAuthorize(Long id) {
+        if (isManagerAuthorized(id)) {
             return manager;
         } else {
             return null;
