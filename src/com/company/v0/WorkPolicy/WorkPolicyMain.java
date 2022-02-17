@@ -42,4 +42,8 @@ public class WorkPolicyMain {
 
         dailyWorkSchedule.save();
     }
+
+    public void setCompanyInformation(User id, String infos) {
+        User.isManagerAuthorized(id) ? Company.setCompanyInfo(infos) : null;
+    }
 }
