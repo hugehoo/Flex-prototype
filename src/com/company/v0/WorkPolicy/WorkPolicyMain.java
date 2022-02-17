@@ -7,7 +7,7 @@ public class WorkPolicyMain {
 
     public void processForCreateWorkPolicy() {
         // 매니저인지 검증 후
-        User manager = user.authorizeManager(id);
+        User manager = User.isManagerAuthorized(id);
 
         // 매니저는 근무정책을 생성할 수 있다.
         WorkPolicy policy = manager.createWorkPolicy();
@@ -19,8 +19,7 @@ public class WorkPolicyMain {
     }
 
     public void updateWorkPolicy() {
-        User user = new User();
-        User manager = user.authorizeManager(id);
+        User manager = User.isManagerAuthorized(id);
 
         WorkPolicy policy = manager.updateWorkPolicy(policyId);
 
@@ -45,5 +44,19 @@ public class WorkPolicyMain {
 
     public void setCompanyInformation(User id, String infos) {
         User.isManagerAuthorized(id) ? Company.setCompanyInfo(infos) : null;
+    }
+
+    public void inviteNewUserByEmail() {
+        User manager = User.isManagerAuthorized(id);
+        User notInvitedYetUser = new User();
+
+        notInvitedYetUser.inputBasicAndExtraInfo();
+        notInvitedYetUser.saveAsWaitingUser();
+
+        sendEmail();
+    }
+
+    private void sendEmail() {
+        System.out.println("send Email to New User");
     }
 }
