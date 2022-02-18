@@ -1,4 +1,4 @@
-package com.company.v0.WorkPolicy;
+package com.company.v0.workpolicy;
 
 public class User {
 
@@ -7,8 +7,8 @@ public class User {
     private boolean managerAuthority;
     UserDb db = new UserDb();
 
-    public static Boolean isManagerAuthorized(Long id) {
-        Boolean isManager = UserDb.findManagerById(id);
+    public static User findManager(Long id) {
+        User isManager = UserDb.findManagerById(id);
         return isManager;
     }
 

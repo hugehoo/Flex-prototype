@@ -1,4 +1,4 @@
-package com.company.v0.WorkPolicy;
+package com.company.v0.workpolicy;
 
 public class Company {
 
@@ -11,7 +11,7 @@ public class Company {
     private String cid;
 
     public void setCompanyInfo(String infos) {
-        User manager = User.isManagerAuthorized(id);
+        User manager = User.findManager(id);
         // 회사 정보는 관리자가 입력한다.
         Company info = inputCompanyInfo(infos); // 회사 정보는 회사 클래스에 저장되야한다.
 

@@ -1,6 +1,4 @@
-package com.company.v0.WorkPolicy;
-
-import java.util.Date;
+package com.company.v0.workpolicy;
 
 public class Work {
 

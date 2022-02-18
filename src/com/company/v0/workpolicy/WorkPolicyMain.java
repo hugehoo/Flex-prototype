@@ -1,4 +1,4 @@
-package com.company.v0.WorkPolicy;
+package com.company.v0.workpolicy;
 
 /**
  * 2022-02-15
@@ -7,7 +7,7 @@ public class WorkPolicyMain {
 
     public void processForCreateWorkPolicy() {
         // 매니저인지 검증 후
-        User manager = User.isManagerAuthorized(id);
+        User manager = User.findManager(id);
 
         // 매니저는 근무정책을 생성할 수 있다.
         WorkPolicy policy = manager.createWorkPolicy();
@@ -19,7 +19,7 @@ public class WorkPolicyMain {
     }
 
     public void updateWorkPolicy() {
-        User manager = User.isManagerAuthorized(id);
+        User manager = User.findManager(id);
 
         WorkPolicy policy = manager.updateWorkPolicy(policyId);
 
@@ -43,11 +43,11 @@ public class WorkPolicyMain {
     }
 
     public void setCompanyInformation(User id, String infos) {
-        User.isManagerAuthorized(id) ? Company.setCompanyInfo(infos) : null;
+        User.findManager(id) ? Company.setCompanyInfo(infos) : null;
     }
 
     public void inviteNewUserByEmail() {
-        User manager = User.isManagerAuthorized(id);
+        User manager = User.findManager(id);
         User notInvitedYetUser = new User();
 
         notInvitedYetUser.inputBasicAndExtraInfo();

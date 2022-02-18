@@ -1,11 +1,11 @@
-package com.company.v0.WorkPolicy;
+package com.company.v0.workpolicy;
 
 // Repository
 public class UserDb {
 
-    public static Boolean findManagerById(Long id) {
+    public static User findManagerById(Long id) {
         System.out.println("find Manager");
-        return true;
+        // 유저 (매니저) 를 반환
     }
 
     // 승낙 대기중인 유저를 저장한다.

@@ -1,4 +1,4 @@
-package com.company.v0.WorkPolicy;
+package com.company.v0.workpolicy;
 
 public class WorkPolicy {
 
