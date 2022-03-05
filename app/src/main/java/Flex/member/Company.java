@@ -6,12 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
 
 /**
  * Company Class
  * 회사의 부서, 부서별 인원 조회와 인원의 재직 상태별 조회 기능을 가집니다.
  */
+@Slf4j
 public class Company {
 
     // 회사의 부서
@@ -19,6 +21,7 @@ public class Company {
 
     // 전체 부서별 인원 조회
     public Map<String, List<Member>> showMembersByTeam(List<Member> allMembers) {
+        log.info("전체 부서별 인원 조회");
         Map<String, List<Member>> teamMembers = new HashMap<>();
 
         for (String team : teams) {
@@ -32,6 +35,7 @@ public class Company {
 
     // 특정 재직 상태의 인원 조회
     public List<Member> showMemberByStatus(List<Member> allMembers, String status) {
+        log.info("재직 상태별 인원 조회");
         return allMembers.stream()
             .filter(member -> status.equals(member.getStatus()))
             .collect(Collectors.toList());
