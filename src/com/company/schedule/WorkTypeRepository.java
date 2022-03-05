@@ -1,4 +1,4 @@
-package com.company.schedule;
+package flex.schedule;
 
 import java.util.List;
 

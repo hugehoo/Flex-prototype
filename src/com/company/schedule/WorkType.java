@@ -1,7 +1,6 @@
-package com.company.schedule;
+package flex.schedule;
 
 
-import com.company.schedule.ScheduleMain.Company;
 import java.util.ArrayList;
 import java.util.List;
 
