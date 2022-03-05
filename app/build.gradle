@@ -22,8 +22,20 @@ dependencies {
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:30.0-jre'
+    implementation 'org.slf4j:slf4j-api:1.7.25'
+    implementation 'org.slf4j:slf4j-simple:1.7.25'
+    implementation 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
 }
 
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '7.0'
+}
+
+task prepareKotlinBuildScriptModel {
+
+}
 application {
     // Define the main class for the application.
     mainClass = 'flex.App'
