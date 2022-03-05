@@ -27,6 +27,15 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
 }
 
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '7.0'
+}
+
+task prepareKotlinBuildScriptModel {
+
+}
+
 application {
     // Define the main class for the application.
     mainClass = 'Flex.prototype.App'
