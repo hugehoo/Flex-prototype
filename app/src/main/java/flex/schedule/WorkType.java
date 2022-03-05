@@ -6,7 +6,7 @@ import java.util.List;
 
 class WorkType implements WorkTypeRepository {
 
-    private Company company;
+    private final Company company;
     WorkType ordinaryWork;
     WorkType dayOff;
 

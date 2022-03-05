@@ -1,8 +1,6 @@
 package flex.schedule;
 
 
-import com.company.schedule.ScheduleMain.Company;
-
 class User {
 
     Company company;
