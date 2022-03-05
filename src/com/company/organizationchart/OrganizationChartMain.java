@@ -1,11 +1,16 @@
 package com.company.organizationchart;
 
+/**
+ * 조직도 차트 메인 클래스
+ */
 public class OrganizationChartMain {
 
     OrganizationRepository organizationRepository;
 
     /**
-     * 하위 조직이 있는지 체크한다.
+     * 해당 조직의 하위 조직이 있는지 확인한다.
+     * @param organization : 해당 조직
+     * @return : 하위 조직이 존재하면 true, 존재하지 않으면 false 리턴
      */
     public boolean isChildOrganizationExist(Organization organization) {
         return organization.directChildOrganization.size() > 0;
@@ -13,6 +18,8 @@ public class OrganizationChartMain {
 
     /**
      * 새로운 조직을 생성한다.
+     * @param parentOrganization : 부모 조직
+     * @param organizationName : 새로 생성할 조직의 이름
      */
     public void createNewOrganization(Organization parentOrganization, String organizationName) {
         int newDepth = ++parentOrganization.currentDepth;
@@ -22,9 +29,10 @@ public class OrganizationChartMain {
         organizationRepository.saveOrganization(organization);
     }
 
-
     /**
      * 조직명을 수정한다.
+     * @param organization : 현재 조직
+     * @param newName : 변경할 새로운 이름
      */
     public void updateOrganizationName(Organization organization, String newName) {
         organization.setOrganizationName(newName);
@@ -33,6 +41,7 @@ public class OrganizationChartMain {
 
     /**
      * 조직을 삭제한다.
+     * @param organization : 현재 조직
      */
     public void deleteOrganization(Organization organization) {
         if (!isChildOrganizationExist(organization)) {
@@ -54,6 +63,5 @@ public class OrganizationChartMain {
         // 4. 하위 조직을 삭제한다.
         deleteOrganization(organization);
     }
-
 
 }
