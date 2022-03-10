@@ -1,12 +1,8 @@
-package com.company.schedule;
+package flex.schedule;
 
 import java.util.Date;
 
 public class ScheduleMain {
-
-    class Company {
-        // TBD
-    }
 
     ScheduleRepository repository;
     Company company;
@@ -23,6 +19,7 @@ public class ScheduleMain {
         // 1. 개인 근무 유형 확인한다.
         WorkType companyWorkType = new WorkType(company);
         WorkType personalWorkType = companyWorkType.getPersonalWorkType(user);
+//        WorkType personalWorkType = companyWorkType.getPersonalWorkType(user);
 
         // 2. 개인 근무 유형과 해당 주 활용하여 주간 스케쥴 리턴받는다.
         Schedule weeklySchedule = repository.getWeeklySchedule(personalWorkType, weekly);
