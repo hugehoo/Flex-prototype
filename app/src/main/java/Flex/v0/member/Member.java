@@ -1,4 +1,4 @@
-package Flex.member;
+package Flex.v0.member;
 
 import java.util.List;
 import java.util.stream.Collectors;

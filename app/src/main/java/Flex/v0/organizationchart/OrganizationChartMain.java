@@ -1,4 +1,4 @@
-package Flex.organizationchart;
+package Flex.v0.organizationchart;
 
 /**
  * 조직도 차트 메인 클래스
