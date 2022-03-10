@@ -9,3 +9,5 @@ Flex-prototype.iml
 
 # Ignore Gradle build output directory
 build
+
+.gitattributes

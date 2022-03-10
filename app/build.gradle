@@ -36,7 +36,8 @@ task wrapper(type: Wrapper) {
 task prepareKotlinBuildScriptModel {
 
 }
+
 application {
     // Define the main class for the application.
-    mainClass = 'flex.App'
+    mainClass = 'Flex.App'
 }
