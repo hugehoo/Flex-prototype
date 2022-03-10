@@ -1,4 +1,4 @@
-package flex.schedule;
+package Flex.schedule;
 
 import java.util.Date;
 

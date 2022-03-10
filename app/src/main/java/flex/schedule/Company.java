@@ -1,4 +1,4 @@
-package flex.schedule;
+package Flex.schedule;
 
 public class Company {
 

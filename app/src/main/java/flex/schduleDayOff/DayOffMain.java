@@ -1,4 +1,4 @@
-package flex.schduleDayOff;
+package Flex.schduleDayOff;
 
 import java.util.Date;
 import java.util.List;
