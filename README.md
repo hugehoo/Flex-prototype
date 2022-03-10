@@ -1,5 +1,8 @@
 OOP TRAINING - FLEX Team Clone
 
+
+![img.png](img.png)
+
 1. 근무유형 생성 
 - 일 근무시간 설정 (ex 8hr)
 - 일 휴게시간 설정
