@@ -1,4 +1,4 @@
-package com.company.organizationchart;
+package Flex.organizationchart;
 
 /**
  * 조직을 관리하는 저장소 인터페이스

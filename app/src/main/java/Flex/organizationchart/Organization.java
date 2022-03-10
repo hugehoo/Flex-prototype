@@ -1,4 +1,4 @@
-package com.company.organizationchart;
+package Flex.organizationchart;
 
 import java.util.List;
 
