@@ -3,12 +3,18 @@
  */
 package Flex;
 
+import Flex.v1.company.leave.LeaveMain;
+import java.text.ParseException;
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
     }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+    public static void main(String[] args) throws ParseException {
+
+        LeaveMain leaveMain = new LeaveMain();
+        leaveMain.execute();
+
     }
 }
