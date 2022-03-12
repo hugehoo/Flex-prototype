@@ -3,12 +3,23 @@
  */
 package Flex;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import Flex.v1.company.CompanyMain;
+import Flex.v1.company.WorkPolicyMain;
+import Flex.v1.company.WorkTypeMain;
+import java.text.ParseException;
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+public class App {
+
+    public static void main(String[] args) throws ParseException {
+
+        CompanyMain companyMain = new CompanyMain();
+        companyMain.execute();
+
+        WorkTypeMain workTypeMain = new WorkTypeMain();
+        workTypeMain.execute();
+
+        WorkPolicyMain workPolicyMain = new WorkPolicyMain();
+        workPolicyMain.execute();
+
     }
 }
