@@ -3,12 +3,18 @@
  */
 package Flex;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import Flex.v1.company.dayoff.DayOffMain;
+import Flex.v1.company.leave.LeaveMain;
+import java.text.ParseException;
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+public class App {
+
+    public static void main(String[] args) throws ParseException {
+
+        DayOffMain dayOffMain = new DayOffMain();
+        dayOffMain.execute();
+        LeaveMain leaveMain = new LeaveMain();
+        leaveMain.execute();
+
     }
 }
