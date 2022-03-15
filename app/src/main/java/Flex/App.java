@@ -3,6 +3,9 @@
  */
 package Flex;
 
+import Flex.v1.company.CompanyMain;
+import Flex.v1.company.WorkPolicyMain;
+import Flex.v1.company.WorkTypeMain;
 import Flex.v1.company.dayoff.DayOffMain;
 import Flex.v1.company.leave.LeaveMain;
 import java.text.ParseException;
@@ -11,8 +14,18 @@ public class App {
 
     public static void main(String[] args) throws ParseException {
 
+        CompanyMain companyMain = new CompanyMain();
+        companyMain.execute();
+
+        WorkTypeMain workTypeMain = new WorkTypeMain();
+        workTypeMain.execute();
+
+        WorkPolicyMain workPolicyMain = new WorkPolicyMain();
+        workPolicyMain.execute();
+      
         DayOffMain dayOffMain = new DayOffMain();
         dayOffMain.execute();
+      
         LeaveMain leaveMain = new LeaveMain();
         leaveMain.execute();
 
