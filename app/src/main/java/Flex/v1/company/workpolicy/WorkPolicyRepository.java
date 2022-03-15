@@ -1,4 +1,4 @@
-package Flex.v1.company;
+package Flex.v1.company.workpolicy;
 
 import java.util.HashMap;
 import java.util.Map;

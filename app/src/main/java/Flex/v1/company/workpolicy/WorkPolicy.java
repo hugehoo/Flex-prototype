@@ -1,7 +1,6 @@
-package Flex.v1.company;
+package Flex.v1.company.workpolicy;
 
 
-import lombok.Data;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

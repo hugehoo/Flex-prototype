@@ -1,4 +1,4 @@
-package Flex.v1.company;
+package Flex.v1.company.workpolicy;
 
 public class WorkPolicyMain {
 

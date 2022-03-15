@@ -1,4 +1,4 @@
-package Flex.v1.company;
+package Flex.v1.company.worktype;
 
 
 import java.text.ParseException;

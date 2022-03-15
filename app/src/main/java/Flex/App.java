@@ -4,8 +4,8 @@
 package Flex;
 
 import Flex.v1.company.CompanyMain;
-import Flex.v1.company.WorkPolicyMain;
-import Flex.v1.company.WorkTypeMain;
+import Flex.v1.company.workpolicy.WorkPolicyMain;
+import Flex.v1.company.worktype.WorkTypeMain;
 import Flex.v1.company.dayoff.DayOffMain;
 import Flex.v1.company.leave.LeaveMain;
 import java.text.ParseException;
