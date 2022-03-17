@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WorkTypeMain {
+
     List<String> workingDay;
     List<String> offDay;
 
@@ -28,7 +29,7 @@ public class WorkTypeMain {
         offDay.add("일");
     }
 
-    public void execute() throws ParseException {
+    public boolean execute() throws ParseException {
         setOffDay();
         setWorkingDay();
         WorkType workType = new WorkType(
@@ -42,7 +43,8 @@ public class WorkTypeMain {
         );
 
         int WeeklyHour = workType.countWeeklyWorkingHour();
-        workType.checkStatutoryWorkingHour(WeeklyHour);
+
+        return workType.checkStatutoryWorkingHour(WeeklyHour);
     }
 
 }
