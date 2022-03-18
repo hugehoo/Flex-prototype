@@ -9,21 +9,34 @@ public class ScheduleMain {
 
     static Logger logger = LoggerFactory.getLogger(ScheduleMain.class);
 
-    public static void main(String[] args) throws ParseException {
+    public void checkWeeklySchedule(int year, int month, int date) throws ParseException {
 
         long overWorkHours = 0L;
         Map<String, Schedule> weeklySchedule =
-            ScheduleRepository.getWeeklyScheduleByDate(2022, 5, 18);
-
+            ScheduleRepository.getWeeklyScheduleByDate(year, month, date);
 
         for (String s : weeklySchedule.keySet()) {
-
             logger.info("{} : {}", weeklySchedule.get(s).getDate(),  weeklySchedule.get(s).getWorkType());
-
             overWorkHours += weeklySchedule.get(s).calculateOverWorkHours();
         }
         logger.info("이번주의 초과근무는 {} 시간 입니다.", overWorkHours);
-        // 보여준 다음엔, 개별 스케쥴을 수정할 수 있어야겠지.
+    }
+
+
+    public static void main(String[] args) throws ParseException {
+
+        ScheduleMain scheduleMain = new ScheduleMain();
+
+        /**
+         * 주간 스케쥴을 확인합니다.
+         */
+        scheduleMain.checkWeeklySchedule(2022, 5, 18);
+
+        /**
+         * 해당 주의 특정 날짜에 휴가를 신청한다.
+         */
+        ScheduleRepository.setScheduleAsLeave("2022-05-19");
+
     }
 
 }

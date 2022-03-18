@@ -45,6 +45,22 @@ public class ScheduleRepository {
         return weeklyScheduleMap;
     }
 
+    public static void setScheduleAsLeave(String date) {
+
+        // 날짜를 받았으니 해당 날짜를 repository 에서 가져온다.
+        // repository 에 해당 날짜가 저장돼있지 않으면, 생성하여 저장한다.
+        // 해당 날짜가 저장돼 있으면 그대로 리턴한다.
+        // 리턴받은 Schedule 객체의 workType 을 leave 로 박으면 되나.
+
+        Schedule schedule = ScheduleRepository.getScheduleByDate(date);
+        schedule.setWorkType("반차");
+
+    }
+
+    // 특정 날짜의 근무유형을 변경하려면, 해당 날짜의 schedule 을 리턴받으면 된다. 굳이 맵 타입으로 받을 필요가 없다.
+    public static Schedule getScheduleByDate(String date) {
+        return weeklyScheduleMap.get(date);
+    }
     // 고민 1.
     // 주중 스케쥴은 회사의 고정 근무 유형을 기반으로 생성된다.
     // 그런데 미래의 어떤 날에 휴가를 계획하여, 특정일에 휴가를 저장해 둔다면?
@@ -74,7 +90,6 @@ public class ScheduleRepository {
                 .build();
 
             weeklyScheduleMap.put(date, schedule);
-//            weeklySchedule
         }
     }
 
