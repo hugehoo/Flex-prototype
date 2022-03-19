@@ -100,12 +100,15 @@ public class WorkType {
     /**
      * 주간 법정 근로시간을 준수하는지 확인합니다.
      * @param WeeklyWorkingHour
+     * @return
      */
-    public void checkStatutoryWorkingHour(int WeeklyWorkingHour){
+    public boolean checkStatutoryWorkingHour(int WeeklyWorkingHour){
         if (StatutoryWorkingHour >= WeeklyWorkingHour) {
             logger.info("적법한 설정입니다");
+            return true;
         } else {
             logger.info("법정 근로시간을 준수해주세요");
+            return false;
         }
     }
 }
