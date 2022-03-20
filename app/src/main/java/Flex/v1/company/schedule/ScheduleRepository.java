@@ -35,19 +35,8 @@ public class ScheduleRepository {
 
     public Schedule getUserSchedule(long userId) {
 
-        personalWorkType = WorkType.builder()
-            .name("고정 출퇴근제")
-            .workManagement("고정")
-            .startHour("09:00:00")
-            .endHour("18:00:00")
-            .lunchBreak(1L)
-            .build();
-
-        user = User.builder()
-            .id(userId)
-            .currentWorkType(personalWorkType)
-            .build();
-
+        logger.info("{} 의 Schedule 을 리턴", user);
+        return personalScheduleMap.get(userId);
     }
 
 
