@@ -5,12 +5,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import lombok.Builder;
+import lombok.Getter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * 회사의 근무유형을 생성, 관리하는 클래스
  */
+@Getter
+@Builder
 public class WorkType {
 
     /*
@@ -101,11 +107,13 @@ public class WorkType {
      * 주간 법정 근로시간을 준수하는지 확인합니다.
      * @param WeeklyWorkingHour
      */
-    public void checkStatutoryWorkingHour(int WeeklyWorkingHour){
+    public boolean checkStatutoryWorkingHour(int WeeklyWorkingHour){
         if (StatutoryWorkingHour >= WeeklyWorkingHour) {
             logger.info("적법한 설정입니다");
+            return true;
         } else {
             logger.info("법정 근로시간을 준수해주세요");
+            return false;
         }
     }
 }
