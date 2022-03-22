@@ -26,17 +26,17 @@ public class ScheduleRepository {
 
     /**
      * 특정 날짜를 기준으로, 해당 주의 스케쥴을 가져온다.
-     * @param YEAR 연도
-     * @param MONTH 월
-     * @param DATE 일
+     * @param year 연도
+     * @param month 월
+     * @param date 일
      * @return 입력한 날짜가 속한 주(week) 의 스케쥴을 리턴
      */
-    public static Map<String, Schedule> getWeeklyScheduleByDate(int YEAR, int MONTH, int DATE) {
+    public static Map<String, Schedule> getWeeklyScheduleByDate(int year, int month, int date) {
 
         WorkType basicWorkType = WorkTypeRepository.getBasicWorkType();
 
         Calendar cal = Calendar.getInstance();
-        cal.set(YEAR, MONTH - 1, DATE);
+        cal.set(year, month - 1, date);
         cal.getTime();
 
         setWeekdays(basicWorkType, cal);
