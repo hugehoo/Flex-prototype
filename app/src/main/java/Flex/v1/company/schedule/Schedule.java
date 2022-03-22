@@ -1,6 +1,8 @@
 package Flex.v1.company.schedule;
 
 
+import Flex.v1.company.user.User;
+import Flex.v1.company.worktype.WorkType;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,8 +20,10 @@ import org.slf4j.LoggerFactory;
 @Builder
 public class Schedule {
 
-    public Schedule(String date, String workType, String startTime,
+
+    public Schedule(long userId, String date, WorkType workType, String startTime,
         String endTime, int totalWorkHour, int overWorkHour, long lunchBreak) {
+        this.userId = userId;
         this.date = date;
         this.workType = workType;
         this.startTime = startTime;
@@ -28,6 +32,11 @@ public class Schedule {
         this.overWorkHour = overWorkHour;
         this.lunchBreak = lunchBreak;
     }
+
+    /**
+     * Schedule 의 주체가 되는 User
+     */
+    private long userId;
 
     /**
      * 해당 스케쥴이 가지는 날짜
@@ -43,7 +52,7 @@ public class Schedule {
     /**
      * 근무 유형
      */
-    private String workType;
+    private WorkType workType;
 
     /**
      * 출근 시간
