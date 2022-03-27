@@ -31,7 +31,7 @@ class WorkTypeTest {
 
     @Test
     @DisplayName("정규 근로시간이 8시간 보다 적을 때")
-    void When_WorkingHourLessThan8() throws ParseException {
+    void When_WorkingHourLessThan8_Expect_Something() throws ParseException {
         workType = WorkType.builder()
                 .startHour("09:10:00")
                 .endHour("18:00:00")
@@ -41,7 +41,7 @@ class WorkTypeTest {
                 .build();
 
         long expectedWorkingHour = 8;
-        assertNotEquals(workType.countDailyWorkingHour(), expectedWorkingHour);
+        assertNotEquals(expectedWorkingHour, workType.countDailyWorkingHour());
     }
 
     @Test
