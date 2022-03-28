@@ -14,7 +14,7 @@ class ScheduleTest {
     Schedule schedule;
 
     @Test
-    void TestOverWorkingTime() throws ParseException {
+    void 근무시간중_초과된_근무시간_계산() throws ParseException {
 
         schedule = Schedule
                 .builder()
@@ -31,7 +31,7 @@ class ScheduleTest {
     }
 
     @Test
-    void Test_CalculateWorkingTime() throws ParseException {
+    void 출퇴근시간에따라_하루근무시간_계산() throws ParseException {
         schedule = Schedule
                 .builder()
                 .userId(123L)
