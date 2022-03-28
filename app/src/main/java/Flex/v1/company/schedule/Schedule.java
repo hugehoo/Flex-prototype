@@ -87,10 +87,10 @@ public class Schedule {
      */
     public long calculateOverWorkHours() throws ParseException {
 
-        Long dailyWorkHour = calculateWorkHours();
-        int basicWorkHour = 8;
+        Long dailyWorkMinutes = calculateWorkHours();
+        int basicWorkMinutes = 8 * 60;
 
-        return (dailyWorkHour > basicWorkHour) ? dailyWorkHour - 8 : 0;
+        return (dailyWorkMinutes > basicWorkMinutes) ? dailyWorkMinutes - basicWorkMinutes : 0;
 
     }
 
@@ -108,7 +108,7 @@ public class Schedule {
 
             logger.info("근무 시간은 {} 시간 입니다.", (fromToHour / secondsOfHour / minutesOfHour) - lunchBreak);
 
-            return (fromToHour / secondsOfHour / minutesOfHour) - lunchBreak;
+            return (fromToHour / secondsOfHour) - lunchBreak *  minutesOfHour;
         } catch (NullPointerException e) {
             // NPE 가 발생했다는 뜻은 휴일이라는 의미
             return 0L;
