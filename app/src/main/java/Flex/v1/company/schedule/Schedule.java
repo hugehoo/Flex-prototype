@@ -3,11 +3,14 @@ package Flex.v1.company.schedule;
 
 import Flex.v1.company.user.User;
 import Flex.v1.company.worktype.WorkType;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,19 +22,6 @@ import org.slf4j.LoggerFactory;
 @Setter
 @Builder
 public class Schedule {
-
-
-    public Schedule(long userId, String date, WorkType workType, String startTime,
-        String endTime, int totalWorkHour, int overWorkHour, long lunchBreak) {
-        this.userId = userId;
-        this.date = date;
-        this.workType = workType;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.totalWorkHour = totalWorkHour;
-        this.overWorkHour = overWorkHour;
-        this.lunchBreak = lunchBreak;
-    }
 
     /**
      * Schedule 의 주체가 되는 User
@@ -78,6 +68,7 @@ public class Schedule {
     private final int secondsOfHour = 60000;
     private long lunchBreak;
 
+    static WorkType dayOffWorkType;
     static Logger logger = LoggerFactory.getLogger(ScheduleMain.class);
 
     /**
@@ -111,8 +102,23 @@ public class Schedule {
             return (fromToHour / secondsOfHour) - lunchBreak *  minutesOfHour;
         } catch (NullPointerException e) {
             // NPE 가 발생했다는 뜻은 휴일이라는 의미
-            return 0L;
+            return -1L;
         }
+    }
+
+    public static Schedule setLeave(@NonNull String date) {
+
+        dayOffWorkType = WorkType.builder()
+                .name("반차")
+                .build();
+
+        Schedule schedule = Schedule.builder()
+                .date(date)
+                .workType(dayOffWorkType)
+                .build();
+
+        ScheduleRepository.personalScheduleMap.put(date, schedule);
+        return schedule;
     }
 
 }
