@@ -6,10 +6,10 @@ public class LeaveMain {
 
         Leave refreshLeave = new Leave(
             "리프레시 휴가",
-            "연속 사용",
+            LeaveUnit.DAY,
             30,
             true,
-            "paid",
+            Paid.PAID,
             "all",
             true,
             false
