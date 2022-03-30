@@ -1,7 +1,9 @@
 package Flex.v1.company.workpolicy;
 
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,6 +13,7 @@ import org.slf4j.LoggerFactory;
 생성된 근무 정책은 근무 정책 테이블에 저장해야한다.
  */
 @Getter
+@Builder
 public class WorkPolicy {
 
     WorkPolicyRepository workPolicyRepository = new WorkPolicyRepository();
@@ -26,7 +29,7 @@ public class WorkPolicy {
     private String workPolicyInfo;
 
     /*
-     등록시 일정 공유
+     등록시 일정 공유 범위 -> 팀 / 조직 / 회사
      */
     private String notification;
 
@@ -57,23 +60,6 @@ public class WorkPolicy {
 
     private static final Logger logger = LoggerFactory.getLogger(WorkPolicy.class);
 
-    public WorkPolicy(String name, String workPolicyInfo, String notification,
-        boolean paid,
-        boolean isNightWork,
-        boolean isWeekendWork,
-        boolean approvalAdministrator,
-        boolean notifyAdministrator) {
-
-        this.name = name;
-        this.workPolicyInfo = workPolicyInfo;
-        this.notification = notification;
-        this.paid = paid;
-        this.isNightWork = isNightWork;
-        this.isWeekendWork = isWeekendWork;
-        this.approvalAdministrator = approvalAdministrator;
-        this.notifyAdministrator = notifyAdministrator;
-    }
-
     public void notifyAdministrator() {
         if (approvalAdministrator) {
             logger.info("조직장에게 승인을 받아야 합니다.");
@@ -82,15 +68,15 @@ public class WorkPolicy {
         }
     }
 
-    public void saveWorkPolicy(String name, WorkPolicy workPolicy) {
-        workPolicyRepository.saveWorkPolicy(name, workPolicy);
-        logger.info("새 근무 정책이 저장 됐습니다.");
-
-    }
-
-    public void deleteWorkPolicy(String name) {
-        workPolicyRepository.deleteWorkPolicy(name);
-        logger.info("새 근무 정책이 저장 됐습니다.");
-    }
+//    public void saveWorkPolicy(@NonNull String name, @NonNull WorkPolicy workPolicy) {
+//        workPolicyRepository.saveWorkPolicy(name, workPolicy);
+//        logger.info("새 근무 정책이 저장 됐습니다.");
+//
+//    }
+//
+//    public void deleteWorkPolicy(@NonNull String name) {
+//        workPolicyRepository.deleteWorkPolicy(name);
+//        logger.info("새 근무 정책이 저장 됐습니다.");
+//    }
 
 }

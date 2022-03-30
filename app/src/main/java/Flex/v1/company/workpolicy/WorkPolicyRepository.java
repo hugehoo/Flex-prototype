@@ -1,18 +1,24 @@
 package Flex.v1.company.workpolicy;
 
+import lombok.NonNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class WorkPolicyRepository {
 
-    Map<String, WorkPolicy> workPolicyRepo = new HashMap<>();
+    Map<Long, WorkPolicy> workPolicyRepo = new HashMap<>();
 
-    public void saveWorkPolicy(String name, WorkPolicy workPolicy) {
-        workPolicyRepo.put(name, workPolicy);
+    public WorkPolicy getWorkPolicy(@NonNull Long id) {
+        return workPolicyRepo.get(id);
     }
 
-    public void deleteWorkPolicy(String name) {
-        workPolicyRepo.remove(name);
+    public void saveWorkPolicy(@NonNull Long id, @NonNull WorkPolicy workPolicy) {
+        workPolicyRepo.put(id, workPolicy);
+    }
+
+    public void deleteWorkPolicy(@NonNull Long id) {
+        workPolicyRepo.remove(id);
     }
 
 }
