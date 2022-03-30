@@ -16,7 +16,6 @@ public class ScheduleMain {
             ScheduleRepository.getWeeklyScheduleByDate(year, month, date);
 
         for (String s : weeklySchedule.keySet()) {
-            logger.info("{} : {}", weeklySchedule.get(s).getDate(),  weeklySchedule.get(s).getWorkType());
             overWorkHours += weeklySchedule.get(s).calculateOverWorkHours();
         }
         logger.info("이번주의 초과근무는 {} 시간 입니다.", overWorkHours);
@@ -31,11 +30,6 @@ public class ScheduleMain {
          * 주간 스케쥴을 확인합니다.
          */
         scheduleMain.checkWeeklySchedule(2022, 5, 18);
-
-        /**
-         * 해당 주의 특정 날짜에 휴가를 신청한다.
-         */
-        ScheduleRepository.setScheduleAsLeave("2022-05-19");
 
     }
 
