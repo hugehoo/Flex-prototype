@@ -68,15 +68,4 @@ public class WorkPolicy {
         }
     }
 
-//    public void saveWorkPolicy(@NonNull String name, @NonNull WorkPolicy workPolicy) {
-//        workPolicyRepository.saveWorkPolicy(name, workPolicy);
-//        logger.info("새 근무 정책이 저장 됐습니다.");
-//
-//    }
-//
-//    public void deleteWorkPolicy(@NonNull String name) {
-//        workPolicyRepository.deleteWorkPolicy(name);
-//        logger.info("새 근무 정책이 저장 됐습니다.");
-//    }
-
 }
