@@ -7,6 +7,9 @@
  */
 
 plugins {
+    id 'org.springframework.boot' version '2.6.5'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
 }
@@ -23,15 +26,23 @@ dependencies {
 
     implementation 'ch.qos.logback:logback-core:1.3.0-alpha13'
     implementation 'com.google.guava:guava:30.0-jre'
-    implementation 'org.slf4j:slf4j-api:1.7.25'
-    implementation 'org.slf4j:slf4j-simple:1.7.25'
+//    implementation 'org.slf4j:slf4j-api:1.7.25'
+//    implementation 'org.slf4j:slf4j-simple:1.7.25'
     implementation 'org.projectlombok:lombok:1.18.20'
 
 
     // Use JUnit test framework.
     testImplementation 'junit:junit:4.13.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testImplementation 'ch.qos.logback:logback-classic:1.3.0-alpha13'
+//    testImplementation 'ch.qos.logback:logback-classic:1.3.0-alpha13'
+
+
+    // Spring
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-devtools'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 }
 
 
