@@ -4,16 +4,16 @@ public class WorkPolicyMain {
 
     public void execute() {
 
-        WorkPolicy workPolicy1 = new WorkPolicy(
-            "반차",
-            "오전반차 혹은 오후반차",
-            "팀내 공유",
-            true,
-            true,
-            true,
-            true,
-            false
-        );
+        WorkPolicy workPolicy1 = WorkPolicy
+                .builder()
+                .name("재택 근무")
+                .workPolicyInfo("자택에서 근무합니다.")
+                .notification("팀")
+                .paid(true)
+                .isNightWork(false).isWeekendWork(false)
+                .approvalAdministrator(true)
+                .notifyAdministrator(false)
+                .build();
 
         workPolicy1.notifyAdministrator();
     }

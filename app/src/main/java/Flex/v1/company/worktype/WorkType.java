@@ -3,8 +3,10 @@ package Flex.v1.company.worktype;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.ZipEntry;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -60,7 +62,7 @@ public class WorkType {
     private final int StatutoryWorkingHour = 40;
 
     public WorkType(String name, String workManagement, String startHour, String endHour,
-        long lunchBreak, List<String> workingDay, List<String> offDay) {
+                    long lunchBreak, List<String> workingDay, List<String> offDay) {
         this.name = name;
         this.workManagement = workManagement;
         this.startHour = startHour;
@@ -107,7 +109,7 @@ public class WorkType {
      * 주간 법정 근로시간을 준수하는지 확인합니다.
      * @param WeeklyWorkingHour
      */
-    public boolean checkStatutoryWorkingHour(int WeeklyWorkingHour){
+    public boolean checkStatutoryWorkingHour(int WeeklyWorkingHour) {
         if (StatutoryWorkingHour >= WeeklyWorkingHour) {
             logger.info("적법한 설정입니다");
             return true;

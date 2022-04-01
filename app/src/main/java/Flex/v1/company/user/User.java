@@ -1,7 +1,11 @@
 package Flex.v1.company.user;
 
+import Flex.v1.company.dayoff.CompanyDayOff;
+import Flex.v1.company.dayoff.DayOffRepository;
 import Flex.v1.company.worktype.WorkType;
 import java.util.Date;
+import java.util.List;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,9 +50,13 @@ public class User {
     /**
      * 역할 (직무)
      */
-    private String role;
+    private Role role;
+
+    private Boolean notifySignal;
 
     private Date dateOfEntry;
+
+    static public List<CompanyDayOff> dayOffList = DayOffRepository.getOffDays();
 
     /**
      * 확정된 연차 내역
@@ -67,6 +75,12 @@ public class User {
         // date 파라미터 를 기준으로 WorkType 이 변경된다.
         // 또한 date 기준 이후의 지정된 모든 일정들은 취소된다. -> schedule 을 초기화 하자.
         this.currentWorkType = workType;
+    }
+
+    // Schedule 클래스내부에서 사용해야 할 것 같은데,
+    // Schedule 필드가 있으면
+    public void useWorkPolicy() {
+
     }
 
 
