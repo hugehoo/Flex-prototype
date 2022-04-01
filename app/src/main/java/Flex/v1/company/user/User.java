@@ -1,7 +1,11 @@
 package Flex.v1.company.user;
 
+import Flex.v1.company.dayoff.CompanyDayOff;
+import Flex.v1.company.dayoff.DayOffRepository;
 import Flex.v1.company.worktype.WorkType;
 import java.util.Date;
+import java.util.List;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -52,7 +56,7 @@ public class User {
 
     private Date dateOfEntry;
 
-//    private Schedule schedule;
+    static public List<CompanyDayOff> dayOffList = DayOffRepository.getOffDays();
 
     /**
      * 확정된 연차 내역
