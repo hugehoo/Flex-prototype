@@ -4,10 +4,8 @@ import Flex.v1.company.user.User;
 import Flex.v1.company.worktype.WorkType;
 import Flex.v1.company.worktype.WorkTypeRepository;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +18,7 @@ public class ScheduleRepository {
      * 스케쥴 저장소는 날짜별로 순서대로 뽑아내야 하기 때문에 LinkedHashMap 을 사용한다.
      */
     static Map<String, Schedule> weeklyScheduleMap = new LinkedHashMap<>();
-    static Map<Long, Schedule> personalScheduleMap = new HashMap<>();
+    static Map<Long, Map<String, Schedule>> personalScheduleMap = new HashMap<>();
 
     /**
      * 근무 유형 저장소에서 회사의 기본 근무 유형을 가져온다.
@@ -32,7 +30,7 @@ public class ScheduleRepository {
 
     Logger logger = LoggerFactory.getLogger(ScheduleRepository.class);
 
-    public Schedule getUserSchedule(long userId) {
+    public Map<String, Schedule> getUserSchedule(long userId) {
 
         logger.info("{} 의 Schedule 을 리턴", user);
         return personalScheduleMap.get(userId);
@@ -41,9 +39,10 @@ public class ScheduleRepository {
 
     /**
      * 특정 날짜를 기준으로, 해당 주의 스케쥴을 가져온다.
-     * @param year 연도
+     *
+     * @param year  연도
      * @param month 월
-     * @param date 일
+     * @param date  일
      * @return 입력한 날짜가 속한 주(week) 의 스케쥴을 리턴
      */
     public static Map<String, Schedule> getWeeklyScheduleByDate(int year, int month, int date) {
@@ -68,8 +67,8 @@ public class ScheduleRepository {
         // 리턴받은 Schedule 객체의 workType 을 leave 로 박으면 되나.
 
         dayOffWorkType = WorkType.builder()
-            .name("반차")
-            .build();
+                .name("반차")
+                .build();
 
         Schedule schedule = ScheduleRepository.getScheduleByDate(date);
         schedule.setWorkType(dayOffWorkType);
@@ -83,8 +82,9 @@ public class ScheduleRepository {
 
     /**
      * 한 주의 평일 스케쥴을 세팅한다.
+     *
      * @param workType 근무 유형
-     * @param cal Calendar 객체
+     * @param cal      Calendar 객체
      */
     public static void setWeekdays(WorkType workType, Calendar cal) {
 
@@ -95,13 +95,13 @@ public class ScheduleRepository {
             cal.add(Calendar.DATE, 1);
             String date = formatter.format(cal.getTime());
             Schedule schedule = Schedule
-                .builder()
-                .date(date)
-                .workType(personalWorkType)
-                .startTime(workType.getStartHour())
-                .endTime(workType.getEndHour())
-                .lunchBreak(1L)
-                .build();
+                    .builder()
+                    .date(date)
+                    .workType(personalWorkType)
+                    .startTime(workType.getStartHour())
+                    .endTime(workType.getEndHour())
+                    .lunchBreak(1L)
+                    .build();
 
             weeklyScheduleMap.put(date, schedule);
         }
@@ -109,6 +109,7 @@ public class ScheduleRepository {
 
     /**
      * 한 주의 주말 스케쥴을 세팅하기 위해 루프를 2회 돈다.
+     *
      * @param cal Calendar 객체
      */
     private static void setWeekends(Calendar cal) {
@@ -121,9 +122,9 @@ public class ScheduleRepository {
             String date = formatter.format(cal.getTime());
 
             Schedule schedule = Schedule.builder()
-                .date(date)
-                .workType(personalWorkType)
-                .build();
+                    .date(date)
+                    .workType(personalWorkType)
+                    .build();
 
             weeklyScheduleMap.put(date, schedule);
         }

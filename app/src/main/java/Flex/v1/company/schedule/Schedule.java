@@ -1,11 +1,13 @@
 package Flex.v1.company.schedule;
 
 
-import Flex.v1.company.user.User;
+import Flex.v1.company.workpolicy.WorkPolicy;
 import Flex.v1.company.worktype.WorkType;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +24,7 @@ public class Schedule {
 
 
     public Schedule(long userId, String date, WorkType workType, String startTime,
-        String endTime, int totalWorkHour, int overWorkHour, long lunchBreak) {
+                    String endTime, int totalWorkHour, int overWorkHour, long lunchBreak) {
         this.userId = userId;
         this.date = date;
         this.workType = workType;
@@ -47,7 +49,7 @@ public class Schedule {
      * 근무 정책 : 일반 근무, 연차, 외근, 원격근무 등 workPolicy 가 연차일 때는 휴가 제도가 무엇이냐에 따라 (종일/오전/오후) 나 (종일) 을 보여줘야한다.
      * 연차를 등록하는 순간, leave 클래스와 연결되어 연산해야한다. 복잡해지네.
      */
-//    private String workPolicy;
+    private WorkPolicy workPolicy;
 
     /**
      * 근무 유형
@@ -82,6 +84,7 @@ public class Schedule {
 
     /**
      * 일(day) 초과 근무 시간을 계산한다.
+     *
      * @return 초과 근무 시간
      * @throws ParseException
      */
@@ -96,6 +99,7 @@ public class Schedule {
 
     /**
      * 일 근무 시간을 계산합니다.
+     *
      * @return 일 근무 시간
      * @throws ParseException
      */
@@ -115,4 +119,8 @@ public class Schedule {
         }
     }
 
+    public boolean changeWorkPolicy(WorkPolicy workPolicy) {
+        this.workPolicy = workPolicy;
+        return workPolicy.isNotifyAdministrator();
+    }
 }
