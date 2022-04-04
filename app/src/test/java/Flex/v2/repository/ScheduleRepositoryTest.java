@@ -158,6 +158,29 @@ class ScheduleRepositoryTest {
         assertThrows(NotEnoughLeaveException.class, () -> schedule.setHalfDayOff(ScheduleStatus.HALF_DAY_OFF_MORNING));
     }
 
+    @Test
+    @DisplayName("설계 오류")
+    @Transactional
+    @Rollback(value = false)
+    void When_HalfDayOff_Should_Start_Time_Different() {
+
+        Schedule schedule;
+        Member member = saveNewMember("김창윤");
+        for (int i = 0; i <= 1; i++) {
+            schedule = createSchedule(member, LocalDate.now().plusDays(i));
+            scheduleRepository.save(schedule.setHalfDayOff(ScheduleStatus.HALF_DAY_OFF_MORNING));
+        }
+        for (int i = 0; i <= 1; i++) {
+            schedule = createSchedule(member, LocalDate.now().plusDays(i));
+            scheduleRepository.save(schedule.setHalfDayOff(ScheduleStatus.HALF_DAY_OFF_AFTERNOON));
+        }
+
+        // 수정이 필요함 -> 이미 halfDayOff 상태인 schedule 에 한번더 halfDay 가 들어가면 그냥 dayOff 로 변경해야한다.
+        assertEquals(ScheduleStatus.HALF_DAY_OFF_MORNING, scheduleRepository.findByMember(member).get(0).getScheduleStatus());
+        assertEquals(LocalTime.of(14, 0, 0), scheduleRepository.findByMember(member).get(0).getStartTime());
+        assertEquals(LocalTime.of(14, 0, 0), scheduleRepository.findByMember(member).get(0).getStartTime());
+    }
+
     private Member saveNewMember(String name) {
         Member member1 = Member.builder()
                 .name(name)
