@@ -1,15 +1,14 @@
 package Flex.v2.domain;
 
 
+import Flex.v2.exception.NotEnoughLeaveException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "schedules")
@@ -43,6 +42,7 @@ public class Schedule {
     @Builder.Default
     public static float basicWorkHour = 8F;
     public static float noWorkHour = 0F;
+    public static float halfWorkHour = 4F;
 
     // 여기서 scheduleStatus 를 세팅한다 -> 근무, 연차, 외근 등
 
@@ -70,16 +70,36 @@ public class Schedule {
         this.scheduleStatus = ScheduleStatus.TELECOMMUTE;
     }
 
-    public void setDayOff(Leave leave) {
-        leave.useDayOff();
-        this.scheduleStatus = ScheduleStatus.DAY_OFF;
-        this.workHour = 0F;
+    private static float dayOff = 1F;
+    private static float halfDayOff = 0.5F;
+
+    public Schedule setDayOff() {
+        minusLeaveCount(dayOff); // new
+        return Schedule.builder()
+                .member(member)
+//                .date(LocalDate.now())
+                .scheduleStatus(ScheduleStatus.DAY_OFF)
+                .weekend(false)
+                .workHour(Schedule.noWorkHour)
+                .build();
     }
 
-    public void setHalfDayOff(Leave leave) {
-        leave.useHalfDayOff();
-        this.scheduleStatus = ScheduleStatus.HALF_DAY_OFF;
-        this.workHour = basicWorkHour / 2;
+    public Schedule setHalfDayOff() {
+        minusLeaveCount(halfDayOff); // new
+        return Schedule.builder()
+                .member(member)
+                .date(LocalDate.now())
+                .scheduleStatus(ScheduleStatus.DAY_OFF)
+                .weekend(false)
+                .workHour(Schedule.halfWorkHour)
+                .build();
     }
 
+    public void minusLeaveCount(float count) throws NotEnoughLeaveException {
+        float remainLeaveCount = member.getLeaveCount() - count;
+        if (remainLeaveCount < 0) {
+            throw new NotEnoughLeaveException("잔여 휴가가 부족합니다.");
+        }
+        member.setLeaveCount(remainLeaveCount);
+    }
 }
