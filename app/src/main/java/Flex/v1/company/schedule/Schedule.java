@@ -23,10 +23,13 @@ import org.slf4j.LoggerFactory;
 public class Schedule {
 
 
-    public Schedule(long userId, String date, WorkType workType, String startTime,
+    public Schedule(long userId, String date,
+                    WorkPolicy workPolicy,
+                    WorkType workType, String startTime,
                     String endTime, int totalWorkHour, int overWorkHour, long lunchBreak) {
         this.userId = userId;
         this.date = date;
+        this.workPolicy = workPolicy;
         this.workType = workType;
         this.startTime = startTime;
         this.endTime = endTime;
