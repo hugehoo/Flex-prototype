@@ -77,7 +77,7 @@ public class Schedule {
         minusLeaveCount(dayOff); // new
         return Schedule.builder()
                 .member(member)
-//                .date(LocalDate.now())
+                .date(date)
                 .scheduleStatus(ScheduleStatus.DAY_OFF)
                 .weekend(false)
                 .workHour(Schedule.noWorkHour)
@@ -88,8 +88,8 @@ public class Schedule {
         minusLeaveCount(halfDayOff); // new
         return Schedule.builder()
                 .member(member)
-                .date(LocalDate.now())
-                .scheduleStatus(ScheduleStatus.DAY_OFF)
+                .date(date)
+                .scheduleStatus(ScheduleStatus.HALF_DAY_OFF)
                 .weekend(false)
                 .workHour(Schedule.halfWorkHour)
                 .build();
