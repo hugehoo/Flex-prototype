@@ -7,6 +7,7 @@ public enum ScheduleStatus {
     TELECOMMUTE,
     WEEKEND,
     DAY_OFF,
-    HALF_DAY_OFF,
+    HALF_DAY_OFF_MORNING,
+    HALF_DAY_OFF_AFTERNOON,
 
 }

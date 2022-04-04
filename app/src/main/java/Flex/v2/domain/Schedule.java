@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Table(name = "schedules")
@@ -40,6 +43,14 @@ public class Schedule {
     private float workHour;
 
     @Builder.Default
+    @Column(name = "start_time")
+    private LocalTime startTime = LocalTime.of(9, 0, 0);
+
+    @Builder.Default
+    @Column(name = "end_time")
+    private LocalTime endTime = LocalTime.of(18, 0, 0);
+
+    @Builder.Default
     public static float basicWorkHour = 8F;
     public static float noWorkHour = 0F;
     public static float halfWorkHour = 4F;
@@ -59,6 +70,8 @@ public class Schedule {
     public static Schedule setWeekendSchedule(Member member, LocalDate date) {
         return Schedule.builder()
                 .date(date)
+                .startTime(null)
+                .endTime(null)
                 .scheduleStatus(ScheduleStatus.WEEKEND)
                 .weekend(true)
                 .member(member)
@@ -78,21 +91,43 @@ public class Schedule {
         return Schedule.builder()
                 .member(member)
                 .date(date)
+                .startTime(null)
+                .endTime(null)
                 .scheduleStatus(ScheduleStatus.DAY_OFF)
                 .weekend(false)
                 .workHour(Schedule.noWorkHour)
                 .build();
     }
 
-    public Schedule setHalfDayOff() {
-        minusLeaveCount(halfDayOff); // new
+    public Schedule setHalfDayOff(ScheduleStatus halfDayOffStatus) {
+
+        Map<String, LocalTime> resultMap = decideHalfDayOff(halfDayOffStatus);
+        minusLeaveCount(halfDayOff);
+
         return Schedule.builder()
                 .member(member)
                 .date(date)
-                .scheduleStatus(ScheduleStatus.HALF_DAY_OFF)
+                .startTime(resultMap.get("start"))
+                .endTime(resultMap.get("end"))
+                .scheduleStatus(halfDayOffStatus)
                 .weekend(false)
                 .workHour(Schedule.halfWorkHour)
                 .build();
+    }
+
+    public Map<String, LocalTime > decideHalfDayOff(ScheduleStatus halfDayOffStatus) {
+
+        Map<String, LocalTime> resultMap = new HashMap<>();
+
+        LocalTime startTime = halfDayOffStatus == ScheduleStatus.HALF_DAY_OFF_MORNING ?
+                LocalTime.of(14, 0, 0) : LocalTime.of(9, 0, 0);
+        LocalTime endTime = halfDayOffStatus == ScheduleStatus.HALF_DAY_OFF_MORNING ?
+                LocalTime.of(18, 0, 0) : LocalTime.of(14, 0, 0);
+
+        resultMap.put("start", startTime);
+        resultMap.put("end", endTime);
+
+        return resultMap;
     }
 
     public void minusLeaveCount(float count) throws NotEnoughLeaveException {
