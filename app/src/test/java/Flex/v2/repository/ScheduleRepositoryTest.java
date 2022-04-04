@@ -4,6 +4,8 @@ import Flex.v2.domain.Member;
 import Flex.v2.domain.Schedule;
 import Flex.v2.domain.ScheduleStatus;
 import Flex.v2.exception.NotEnoughLeaveException;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -84,7 +87,7 @@ class ScheduleRepositoryTest {
         // when
         Long scheduleId = scheduleRepository.save(schedule.setDayOff());
         Long scheduleId2 = scheduleRepository.save(schedule2.setDayOff());
-        Long scheduleId3 = scheduleRepository.save(schedule3.setHalfDayOff());
+        Long scheduleId3 = scheduleRepository.save(schedule3.setHalfDayOff(ScheduleStatus.HALF_DAY_OFF_MORNING));
 
         // then
         assertEquals(0F, scheduleRepository.findById(scheduleId).getWorkHour());
@@ -121,7 +124,7 @@ class ScheduleRepositoryTest {
         Member member = saveNewMember("한승윤");
         for (int i = 0; i <= 9; i++) {
             Schedule schedule = createSchedule(member, LocalDate.now().plusDays(i));
-            scheduleRepository.save(schedule.setHalfDayOff());
+            scheduleRepository.save(schedule.setHalfDayOff(ScheduleStatus.HALF_DAY_OFF_MORNING));
         }
 
         // given
@@ -129,10 +132,10 @@ class ScheduleRepositoryTest {
         Schedule nineDaysLaterSchedule = scheduleRepository.findByDate(member, LocalDate.now().plusDays(9));
 
         // then
-        assertEquals(ScheduleStatus.HALF_DAY_OFF, schedule.getScheduleStatus());
+        assertEquals(ScheduleStatus.HALF_DAY_OFF_MORNING, schedule.getScheduleStatus());
         assertEquals(LocalDate.now(), schedule.getDate());
 
-        assertEquals(ScheduleStatus.HALF_DAY_OFF, nineDaysLaterSchedule.getScheduleStatus());
+        assertEquals(ScheduleStatus.HALF_DAY_OFF_MORNING, nineDaysLaterSchedule.getScheduleStatus());
         assertEquals(LocalDate.now().plusDays(9), nineDaysLaterSchedule.getDate());
     }
 
@@ -145,14 +148,14 @@ class ScheduleRepositoryTest {
         Member member = saveNewMember("한승윤");
         for (int i = 0; i <= 19; i++) {
             Schedule schedule = createSchedule(member, LocalDate.now().plusDays(i));
-            scheduleRepository.save(schedule.setHalfDayOff());
+            scheduleRepository.save(schedule.setHalfDayOff(ScheduleStatus.HALF_DAY_OFF_MORNING));
         }
 
         // given
         Schedule schedule = createSchedule(member, LocalDate.now().plusDays(20));
 
         // then
-        assertThrows(NotEnoughLeaveException.class, () -> schedule.setHalfDayOff());
+        assertThrows(NotEnoughLeaveException.class, () -> schedule.setHalfDayOff(ScheduleStatus.HALF_DAY_OFF_MORNING));
     }
 
     private Member saveNewMember(String name) {
@@ -170,7 +173,6 @@ class ScheduleRepositoryTest {
                 .date(date)
                 .build();
     }
-
 
     public void setWeekSchedule(Member member) {
 
