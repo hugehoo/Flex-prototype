@@ -23,6 +23,10 @@ public class ScheduleRepository {
         return schedule.getId();
     }
 
+    public Schedule findById(Long scheduleId) {
+        return em.find(Schedule.class, scheduleId);
+    }
+
     public List<Schedule> findByMember(Member member) {
         return em.createQuery("select o from Schedule o join o.member m where o.member = :memberId", Schedule.class)
                 .setParameter("memberId", member)

@@ -2,7 +2,7 @@ package Flex.v2.repository;
 
 import Flex.v2.domain.Member;
 import Flex.v2.domain.Schedule;
-import org.junit.jupiter.api.DisplayName;
+import Flex.v2.domain.ScheduleStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,40 +32,96 @@ class ScheduleRepositoryTest {
     @Rollback(value = false)
     void Test_7Days_Schedule_For_Each_Member() {
 
-        Member member1 = Member.builder()
-                .name("임성후")
-                .build();
-        Long saveId = memberRepository.save(member1);
+        // given
+        Member member1 = saveNewMember("임성후");
+        Member member2 = saveNewMember("김봉주");
+        Member member3 = saveNewMember("전성환");
 
-        Member member2 = Member.builder()
-                .name("김봉주")
-                .build();
-        Long saveId2 = memberRepository.save(member2);
-
-        Member member3 = Member.builder()
-                .name("전성환")
-                .build();
-        Long saveId3 = memberRepository.save(member3);
-
-
+        // when
         List<Member> memberList = memberRepository.findAll();
-        memberList.forEach(member -> {
-            for (int i = 0; i <= week; i++) {
-                LocalDate date = LocalDate.now().plusDays(i);
-                DayOfWeek dayOfWeek = date.getDayOfWeek();
-                Schedule newSchedule;
+        memberList.forEach(this::setWeekSchedule);
 
-                if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
-                    newSchedule = Schedule.setWeekendSchedule(member, date);
-                } else {
-                    newSchedule = Schedule.setBasicSchedule(member, date);
-                }
-                scheduleRepository.save(newSchedule);
-            }
-        });
+        // then
         assertEquals(7, scheduleRepository.findByMember(member1).size());
-        assertEquals(member1, scheduleRepository.findByMember(member1).get(0).getMember());
-        assertEquals(LocalDate.now(), scheduleRepository.findByMember(member1).get(0).getDate());
+        assertEquals(LocalDate.of(2022, 4, 4), scheduleRepository.findByMember(member2).get(0).getDate());
+        assertEquals(ScheduleStatus.WEEKEND, scheduleRepository.findByMember(member3).get(6).getScheduleStatus());
     }
 
+
+    @Test
+    @Transactional
+    @Rollback(value = false)
+    void When_Given_DayOff_Should_WorkHour_0F() {
+
+        // given
+        Member member1 = saveNewMember("임성후");
+        Schedule schedule = createSchedule(member1, LocalDate.of(2022, 4, 4));
+
+
+        // when
+        Long scheduleId = scheduleRepository.save(schedule.setDayOff());
+
+        // then
+        schedule = scheduleRepository.findByMember(member1).get(0);
+
+        assertEquals(ScheduleStatus.DAY_OFF, schedule.getScheduleStatus());
+        assertEquals(0F, scheduleRepository.findById(scheduleId).getWorkHour());
+    }
+
+
+    @Test
+    @Transactional
+    @Rollback(value = false)
+    void When_Given_Multiple_DayOff_() {
+
+        // given
+        Member member1 = saveNewMember("임성후");
+        Schedule schedule = createSchedule(member1, LocalDate.of(2022, 4, 4));
+        Schedule schedule2 = createSchedule(member1, LocalDate.of(2022, 4, 5));
+        Schedule schedule3 = createSchedule(member1, LocalDate.of(2022, 4, 6));
+
+        // when
+        Long scheduleId = scheduleRepository.save(schedule.setDayOff());
+        Long scheduleId2 = scheduleRepository.save(schedule2.setDayOff());
+        Long scheduleId3 = scheduleRepository.save(schedule3.setHalfDayOff());
+
+        // then
+        assertEquals(0F, scheduleRepository.findById(scheduleId).getWorkHour());
+        assertEquals(0F, scheduleRepository.findById(scheduleId2).getWorkHour());
+        assertEquals(4F, scheduleRepository.findById(scheduleId3).getWorkHour());
+
+    }
+
+    private Member saveNewMember(String name) {
+        Member member1 = Member.builder()
+                .name(name)
+                .build();
+
+        memberRepository.save(member1);
+        return member1;
+    }
+
+    private Schedule createSchedule(Member member, LocalDate date) {
+        return Schedule.builder()
+                .member(member)
+                .date(date)
+                .build();
+    }
+
+
+    public void setWeekSchedule(Member member) {
+
+        for (int i = 0; i <= week; i++) {
+            LocalDate date = LocalDate.now().plusDays(i);
+            DayOfWeek dayOfWeek = date.getDayOfWeek();
+            Schedule newSchedule;
+
+            if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
+                newSchedule = Schedule.setWeekendSchedule(member, date);
+            } else {
+                newSchedule = Schedule.setBasicSchedule(member, date);
+            }
+            scheduleRepository.save(newSchedule);
+        }
+    }
 }
