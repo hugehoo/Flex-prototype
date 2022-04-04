@@ -115,6 +115,30 @@ class ScheduleRepositoryTest {
     @Test
     @Transactional
     @Rollback(value = false)
+    void Test_findByDate_Method() {
+
+        // when
+        Member member = saveNewMember("한승윤");
+        for (int i = 0; i <= 9; i++) {
+            Schedule schedule = createSchedule(member, LocalDate.now().plusDays(i));
+            scheduleRepository.save(schedule.setHalfDayOff());
+        }
+
+        // given
+        Schedule schedule = scheduleRepository.findByDate(member, LocalDate.now());
+        Schedule nineDaysLaterSchedule = scheduleRepository.findByDate(member, LocalDate.now().plusDays(9));
+
+        // then
+        assertEquals(ScheduleStatus.HALF_DAY_OFF, schedule.getScheduleStatus());
+        assertEquals(LocalDate.now(), schedule.getDate());
+
+        assertEquals(ScheduleStatus.HALF_DAY_OFF, nineDaysLaterSchedule.getScheduleStatus());
+        assertEquals(LocalDate.now().plusDays(9), nineDaysLaterSchedule.getDate());
+    }
+
+    @Test
+    @Transactional
+    @Rollback(value = false)
     void When_LeaveCount_Under_Zero_Throws_NotEnoughLeaveException_For_HalfDayOff() {
 
         // when
@@ -129,7 +153,6 @@ class ScheduleRepositoryTest {
 
         // then
         assertThrows(NotEnoughLeaveException.class, () -> schedule.setHalfDayOff());
-
     }
 
     private Member saveNewMember(String name) {

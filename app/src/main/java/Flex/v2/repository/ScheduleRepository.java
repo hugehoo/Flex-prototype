@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -25,6 +25,13 @@ public class ScheduleRepository {
 
     public Schedule findById(Long scheduleId) {
         return em.find(Schedule.class, scheduleId);
+    }
+
+    public Schedule findByDate(Member member, LocalDate date) {
+        return em.createQuery("select s from Schedule  s join s.member m where s.member = :memberId and s.date = :date", Schedule.class)
+                .setParameter("memberId", member)
+                .setParameter("date", date)
+                .getSingleResult();
     }
 
     public List<Schedule> findByMember(Member member) {
