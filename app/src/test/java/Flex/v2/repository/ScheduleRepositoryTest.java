@@ -3,6 +3,7 @@ package Flex.v2.repository;
 import Flex.v2.domain.Member;
 import Flex.v2.domain.Schedule;
 import Flex.v2.domain.ScheduleStatus;
+import Flex.v2.exception.NotEnoughLeaveException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -89,6 +90,45 @@ class ScheduleRepositoryTest {
         assertEquals(0F, scheduleRepository.findById(scheduleId).getWorkHour());
         assertEquals(0F, scheduleRepository.findById(scheduleId2).getWorkHour());
         assertEquals(4F, scheduleRepository.findById(scheduleId3).getWorkHour());
+
+    }
+
+    @Test
+    @Transactional
+    @Rollback(value = false)
+    void When_LeaveCount_Under_Zero_Throws_NotEnoughLeaveException_For_DayOff() {
+
+        // when
+        Member member = saveNewMember("한승윤");
+        for (int i = 0; i <= 9; i++) {
+            Schedule schedule = createSchedule(member, LocalDate.now().plusDays(i));
+            scheduleRepository.save(schedule.setDayOff());
+        }
+
+        // given
+        Schedule schedule = createSchedule(member, LocalDate.now().plusDays(10));
+
+        // then
+        assertThrows(NotEnoughLeaveException.class, () -> schedule.setDayOff());
+    }
+
+    @Test
+    @Transactional
+    @Rollback(value = false)
+    void When_LeaveCount_Under_Zero_Throws_NotEnoughLeaveException_For_HalfDayOff() {
+
+        // when
+        Member member = saveNewMember("한승윤");
+        for (int i = 0; i <= 19; i++) {
+            Schedule schedule = createSchedule(member, LocalDate.now().plusDays(i));
+            scheduleRepository.save(schedule.setHalfDayOff());
+        }
+
+        // given
+        Schedule schedule = createSchedule(member, LocalDate.now().plusDays(20));
+
+        // then
+        assertThrows(NotEnoughLeaveException.class, () -> schedule.setHalfDayOff());
 
     }
 
