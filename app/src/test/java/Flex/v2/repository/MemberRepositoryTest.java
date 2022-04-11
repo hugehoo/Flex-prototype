@@ -1,24 +1,31 @@
 package Flex.v2.repository;
 
+import Flex.v2.domain.Company;
 import Flex.v2.domain.Member;
+import Flex.v2.domain.WorkPolicy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.matchers.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
+import java.time.LocalTime;
+import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class MemberRepositoryTest {
 
     @Autowired
-    MemberRepository memberRepository;
+    MemberJpaRepository memberRepository;
+
+    @Autowired
+    WorkPolicyRepository workPolicyRepository;
+
+    @Autowired
+    CompanyRepository companyRepository;
 
     private final static float companyInitLeave = 15;
 
@@ -27,7 +34,7 @@ class MemberRepositoryTest {
     @DisplayName("save() 의 인자가 null 일 때 NPE 를 던진다")
     void When_save_Method_Argument_Null_Throws_NPE() {
         Member member1 = null;
-        assertThrows(NullPointerException.class, () -> {
+        assertThrows(InvalidDataAccessApiUsageException.class, () -> {
             memberRepository.save(member1);
         });
     }
@@ -35,7 +42,7 @@ class MemberRepositoryTest {
     @Test
     @DisplayName("findOne() 메서드의 인자가 null 이면 NullPointerException 을 던진다.")
     void When_findOne_Argument_Null_Throws_NPE() {
-        assertThrows(NullPointerException.class, () -> {
+        assertThrows(InvalidDataAccessApiUsageException.class, () -> {
             memberRepository.findOne(null);
         });
     }
@@ -43,10 +50,8 @@ class MemberRepositoryTest {
     @Test
     @DisplayName("DB 에 미리 세팅된 데이터를 불러와 검증한다.")
     void findOne() {
-        Member member1 = memberRepository.findOne(1L);
-        assertEquals(1L, member1.getId());
-        assertEquals("임성후", member1.getName());
-        assertEquals(15, member1.getLeaveCount());
+        Optional<Member> member1 = memberRepository.findById(2L);
+        member1.ifPresent(member -> assertEquals(2L, member.getId()));
     }
 
     @Test
@@ -73,4 +78,35 @@ class MemberRepositoryTest {
                 .leaveCount(companyInitLeave)
                 .build();
     }
+
+
+    @Test
+    @Transactional
+    @Rollback(value = false)
+    public void saveWorkPolicy() {
+
+        LocalTime startTime = LocalTime.of(9, 0, 0);
+        LocalTime endTime = LocalTime.of(18, 0, 0);
+
+        LocalTime startTime10 = LocalTime.of(10, 0, 0);
+        LocalTime endTime10 = LocalTime.of(19, 0, 0);
+
+        WorkPolicy sample = WorkPolicy.builder()
+                .name("고정출퇴근제")
+                .startTime(startTime)
+                .endTime(endTime)
+                .basicWorkPolicy(true)
+                .build();
+
+        workPolicyRepository.save(sample);
+
+        WorkPolicy sample2 = WorkPolicy.builder()
+                .name("10시 출퇴근제")
+                .startTime(startTime10)
+                .endTime(endTime10)
+                .build();
+
+        workPolicyRepository.save(sample2);
+    }
+
 }
