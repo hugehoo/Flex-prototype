@@ -6,15 +6,16 @@ import java.time.LocalDate;
 import java.util.Map;
 
 
-@Entity
-@Table(name = "basic_work_policy")
+@Deprecated
+//@Entity
+//@Table(name = "basic_work_policy")
 public class BasicWorkPolicy {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @Column(name = "workpolicy")
     private Map<Long, WorkPolicy> workPolicy;
 

@@ -1,33 +1,48 @@
 package Flex.v2.domain;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 @Entity
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "company")
 public class Company {
 
     @Id
     @GeneratedValue
-    @Column(name = "company_id")
     private Long id;
 
+    @Column(name = "name")
     private String companyName;
 
-    @OneToMany
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY)
     private Map<Long, Member> Member = new HashMap<>();
 
-    @ManyToOne
-    @JoinColumn(name = "basic_workpolicy")// 수정 필요
-    private BasicWorkPolicy basicWorkPolicy;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "workPolicy_id")// 수정 필요
+    private static List<WorkPolicy> workPolicyList= new ArrayList<>();
 
+    public static Company createCompany(String companyName, List<WorkPolicy> workPolicies) {
+        Company company = Company.builder()
+                .companyName(companyName)
+                .build();
+        workPolicyList.addAll(workPolicies);
+        return company;
+    }
+
+    public void addWorkPolicy(WorkPolicy workPolicy) {
+        workPolicyList.add(workPolicy);
+        workPolicy.setCompany(this);
+    }
 
 }

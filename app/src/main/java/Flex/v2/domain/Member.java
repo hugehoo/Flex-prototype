@@ -21,13 +21,17 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
+    @Column(name = "member_name")
     private String name;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Schedule> scheduleList = new ArrayList<>();
 
     @Builder.Default
+    @Column(name = "leave_days")
     private float leaveCount = 10;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Company company;
 
 }
