@@ -109,4 +109,27 @@ class MemberRepositoryTest {
         workPolicyRepository.save(sample2);
     }
 
+
+
+    @Test
+    @DisplayName("Error : 새로운 멤버를 추가하고, 소속 회사를 지정한다. -> could not initialize proxy error")
+    void createNewMember() {
+
+        String memberName = "한승윤";
+        Member newMember = createMember(memberName);
+
+//        Company companyProxyError = companyRepository.getById(1L); // 이거 사용시 proxyError 발생 // findById() 와 getById() 차이가 뭐여
+//        System.out.println(companyProxyError);
+
+        Optional<Company> company = companyRepository.findById(1L);
+        company.ifPresent(newMember::setCompany);
+        memberRepository.save(newMember);
+
+        Optional<Member> member = memberRepository.findById(2L);
+//        Optional<Member> member = memberRepository.findById(2L);
+        member.ifPresent(member1 -> System.out.println(member1.getId()));
+        member.ifPresent(member1 -> System.out.println(member1.getName()));
+        // member.ifPresent(member1 -> System.out.println(member1.getCompany())); // proxy error 발생
+    }
+
 }
