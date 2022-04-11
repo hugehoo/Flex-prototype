@@ -6,14 +6,14 @@ spring:
     default: dev # 기본 환경을 dev로
 
   datasource:
-    driver-class-name: org.h2.Driver
-    url: "jdbc:h2:tcp://localhost/~/test"
-    username: sa
-    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url : "jdbc:mysql://localhost:3306/flex?serverTimezone=UTC&characterEncoding=UTF-8"
+    username: flex
+    password: flex
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         #        show_sql: true
