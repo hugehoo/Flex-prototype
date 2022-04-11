@@ -1,8 +1,10 @@
 package Flex.v2.repository;
 
 import Flex.v2.domain.Member;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,12 +17,13 @@ public class MemberRepository {
     @PersistenceContext
     private final EntityManager em;
 
-    public Long save(Member member) {
+    @Transactional
+    public Long save(@NonNull Member member) {
         em.persist(member);
         return member.getId();
     }
 
-    public Member findOne(Long id) {
+    public Member findOne(@NonNull Long id) {
         return em.find(Member.class, id);
     }
 
