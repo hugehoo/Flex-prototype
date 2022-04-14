@@ -7,7 +7,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,24 +27,6 @@ class MemberRepositoryTest {
     CompanyRepository companyRepository;
 
     private final static float companyInitLeave = 15;
-
-    @Test
-    @Rollback(value = true) // false 로 인해 rollback 이 되지 않고, mysql 에 그대로 저장됨.
-    @DisplayName("save() 의 인자가 null 일 때 NPE 를 던진다")
-    void When_save_Method_Argument_Null_Throws_NPE() {
-        Member member1 = null;
-        assertThrows(InvalidDataAccessApiUsageException.class, () -> {
-            memberRepository.save(member1);
-        });
-    }
-
-    @Test
-    @DisplayName("findOne() 메서드의 인자가 null 이면 NullPointerException 을 던진다.")
-    void When_findOne_Argument_Null_Throws_NPE() {
-        assertThrows(InvalidDataAccessApiUsageException.class, () -> {
-            memberRepository.findOne(null);
-        });
-    }
 
     @Test
     @DisplayName("DB 에 미리 세팅된 데이터를 불러와 검증한다.")
@@ -110,26 +91,20 @@ class MemberRepositoryTest {
     }
 
 
-
     @Test
-    @DisplayName("Error : 새로운 멤버를 추가하고, 소속 회사를 지정한다. -> could not initialize proxy error")
-    void createNewMember() {
+    @DisplayName("Member 를 생성 후 저장, ")
+    void createNewMemberAndCheckCompany() {
 
-        String memberName = "한승윤";
-        Member newMember = createMember(memberName);
+        Member newMember = createMember("한승윤");
 
-//        Company companyProxyError = companyRepository.getById(1L); // 이거 사용시 proxyError 발생 // findById() 와 getById() 차이가 뭐여
-//        System.out.println(companyProxyError);
-
-        Optional<Company> company = companyRepository.findById(1L);
-        company.ifPresent(newMember::setCompany);
+        Optional<Company> companyOptional = companyRepository.findById(1L);
+        companyOptional.ifPresent(newMember::setCompany);
         memberRepository.save(newMember);
 
-        Optional<Member> member = memberRepository.findById(2L);
-//        Optional<Member> member = memberRepository.findById(2L);
-        member.ifPresent(member1 -> System.out.println(member1.getId()));
-        member.ifPresent(member1 -> System.out.println(member1.getName()));
-        // member.ifPresent(member1 -> System.out.println(member1.getCompany())); // proxy error 발생
+        Optional<Member> memberOptional = memberRepository.findById(52L);
+        Member member = memberOptional.orElse(new Member());
+
+        assertEquals(1, member.getCompany().getId());
     }
 
 }
