@@ -1,13 +1,11 @@
 package Flex.v2.domain;
 
-import org.apache.tomcat.jni.Local;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
 
-public class ThisWeek {
+public class Week {
 
     public static Map<String, LocalDate> weekFromTo(String dateString) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
