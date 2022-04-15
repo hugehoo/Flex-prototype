@@ -2,6 +2,7 @@ package Flex.v2.domain;
 
 
 import Flex.v2.exception.NotEnoughLeaveException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,6 +33,7 @@ public class Schedule {
     @Column(name = "weekend")
     private boolean weekend;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
