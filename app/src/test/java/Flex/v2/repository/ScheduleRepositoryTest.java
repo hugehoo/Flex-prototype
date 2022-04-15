@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ScheduleRepositoryTest {
 
     @Autowired
-    MemberRepository memberRepository;
+    MemberJpaRepository memberRepository;
 
     @Autowired
     ScheduleRepository scheduleRepository;
@@ -47,7 +47,7 @@ class ScheduleRepositoryTest {
 
         // then
         assertEquals(7, scheduleRepository.findByMember(member1).size());
-        assertEquals(LocalDate.of(2022, 4, 4), scheduleRepository.findByMember(member2).get(0).getDate());
+        assertEquals(LocalDate.of(2022, 4, 15), scheduleRepository.findByMember(member2).get(0).getDate());
         assertEquals(ScheduleStatus.WEEKEND, scheduleRepository.findByMember(member3).get(6).getScheduleStatus());
     }
 
