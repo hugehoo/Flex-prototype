@@ -4,7 +4,6 @@ import Flex.v2.domain.Member;
 import Flex.v2.domain.Schedule;
 import Flex.v2.domain.ScheduleStatus;
 import Flex.v2.exception.NotEnoughLeaveException;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,13 +33,11 @@ class ScheduleRepositoryTest {
 
     @Test
     @Transactional
-    @Rollback(value = false)
-    void Test_7Days_Schedule_For_Each_Member() {
+    @DisplayName("오늘을 기준으로 일주일간의 기본 스케쥴을 생성한다.")
+    void Test_7Days_Schedule_For_Newly_Created_Member() {
 
         // given
-        Member member1 = saveNewMember("임성후");
-        Member member2 = saveNewMember("김봉주");
-        Member member3 = saveNewMember("전성환");
+        Member member1 = saveNewMember("손범수");
 
         // when
         List<Member> memberList = memberRepository.findAll();
@@ -47,8 +45,12 @@ class ScheduleRepositoryTest {
 
         // then
         assertEquals(7, scheduleRepository.findByMember(member1).size());
-        assertEquals(LocalDate.of(2022, 4, 15), scheduleRepository.findByMember(member2).get(0).getDate());
-        assertEquals(ScheduleStatus.WEEKEND, scheduleRepository.findByMember(member3).get(6).getScheduleStatus());
+        assertEquals(LocalDate.now(), scheduleRepository.findByMember(member1).get(0).getDate());
+
+        List<Schedule> scheduleOfWeekend = scheduleRepository.findByMember(member1).stream()
+                .filter(schedule -> schedule.getScheduleStatus() == ScheduleStatus.WEEKEND)
+                .collect(Collectors.toList());
+        assertEquals(scheduleOfWeekend.size(), 2);
     }
 
 
