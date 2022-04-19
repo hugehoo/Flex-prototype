@@ -5,18 +5,12 @@ import Flex.v2.domain.Schedule;
 import Flex.v2.service.MemberService;
 import Flex.v2.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.jni.Local;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
-import java.text.SimpleDateFormat;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("member")
@@ -25,10 +19,7 @@ public class MemberController {
 
 
     private final MemberService memberService;
-
     private final ScheduleService scheduleService;
-
-//    SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd");
 
     @GetMapping("/")
     public List<Member> getAllMembers() {
@@ -43,12 +34,20 @@ public class MemberController {
 
     @GetMapping("schedule/{memberId}")
     public List<Schedule> getMemberSchedule(@PathVariable("memberId") Long id) {
-        return scheduleService.getMemberSchedule(id);
+        return scheduleService.getSchedule(id);
     }
 
     @GetMapping("schedule/{memberId}/now")
-    public Schedule getMemberNowSchedule(@PathVariable("memberId") Long id) {
-        return scheduleService.getMemberNowSchedule(id);
+    public List<Schedule> getMemberNowSchedule(@PathVariable("memberId") Long id) {
+        return scheduleService.getTodaySchedule(id);
+    }
+
+    @GetMapping("schedule/{memberId}/specific/{date}")
+    public List<Schedule> getMemberSpecificSchedule(
+            @PathVariable("memberId") Long id,
+            @PathVariable("date") String date
+    ) {
+        return scheduleService.getSpecificDateSchedule(id, date);
     }
 
     @GetMapping("schedule/{memberId}/{date}")
@@ -56,7 +55,7 @@ public class MemberController {
             @PathVariable("memberId") Long id,
             @PathVariable("date") String date
     ) {
-        return scheduleService.getMemberWeeklySchedule(id, date);
+        return scheduleService.getWeeklySchedule(id, date);
     }
 
 }
