@@ -1,5 +1,6 @@
 package Flex.v2.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,6 +25,7 @@ public class Member {
     @Column(name = "member_name")
     private String name;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY)
     private List<Schedule> scheduleList = new ArrayList<>();
 

@@ -63,7 +63,6 @@ class MemberRepositoryTest {
 
     @Test
     @Transactional
-    @Rollback(value = false)
     public void saveWorkPolicy() {
 
         LocalTime startTime = LocalTime.of(9, 0, 0);
@@ -103,7 +102,6 @@ class MemberRepositoryTest {
 
         Optional<Member> memberOptional = memberRepository.findById(52L);
         Member member = memberOptional.orElse(new Member());
-
         assertEquals(1, member.getCompany().getId());
     }
 
